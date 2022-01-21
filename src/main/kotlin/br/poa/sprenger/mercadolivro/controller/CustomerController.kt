@@ -35,8 +35,8 @@ class CustomerController(val service: CustomerService) {
         return service.updateCustomer(id, customer)
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     fun delete(@PathVariable id: Int) {
         service.delete(id)
     }
