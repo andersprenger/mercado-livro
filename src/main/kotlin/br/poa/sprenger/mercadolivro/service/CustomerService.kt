@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service
 @Service
 class CustomerService {
     val customers = mutableListOf<CustomerModel>()
+    var counter: Int = 0
 
     fun getAll(name: String?): List<CustomerModel> {
         name?.let {
@@ -29,7 +30,7 @@ class CustomerService {
     }
 
     fun createCustomer(customer: PostCustomerRequest) {
-        customers.add(CustomerModel("${customers.size + 1}", customer.name, customer.email))
+        customers.add(CustomerModel("${++counter}", customer.name, customer.email))
     }
 
     fun delete(id: Int) {
