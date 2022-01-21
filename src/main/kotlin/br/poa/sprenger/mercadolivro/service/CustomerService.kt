@@ -1,7 +1,5 @@
 package br.poa.sprenger.mercadolivro.service
 
-import br.poa.sprenger.mercadolivro.controller.request.PostCustomerRequest
-import br.poa.sprenger.mercadolivro.controller.request.PutCustomerRequest
 import br.poa.sprenger.mercadolivro.model.CustomerModel
 import org.springframework.stereotype.Service
 
@@ -22,18 +20,19 @@ class CustomerService {
         return customers[id - 1]
     }
 
-    fun updateCustomer(id: Int, customer: PutCustomerRequest) {
-        customers.first { it.id == "$id" }.let {
+    fun updateCustomer(id: Int, customer: CustomerModel) {
+        customers.first { it.id == id }.let {
             it.name = customer.name
             it.email = customer.email
         }
     }
 
-    fun createCustomer(customer: PostCustomerRequest) {
-        customers.add(CustomerModel("${++counter}", customer.name, customer.email))
+    fun createCustomer(customer: CustomerModel) {
+        customer.id = ++counter
+        customers.add(customer)
     }
 
     fun delete(id: Int) {
-        customers.removeIf { it.id == "$id" }
+        customers.removeIf { it.id == id }
     }
 }

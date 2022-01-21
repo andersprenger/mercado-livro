@@ -2,6 +2,7 @@ package br.poa.sprenger.mercadolivro.controller
 
 import br.poa.sprenger.mercadolivro.controller.request.PostCustomerRequest
 import br.poa.sprenger.mercadolivro.controller.request.PutCustomerRequest
+import br.poa.sprenger.mercadolivro.controller.request.toCustomerModel
 import br.poa.sprenger.mercadolivro.model.CustomerModel
 import br.poa.sprenger.mercadolivro.service.CustomerService
 import org.springframework.http.HttpStatus
@@ -20,7 +21,7 @@ class CustomerController(val service: CustomerService) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createCustomer(@RequestBody customer: PostCustomerRequest) {
-        service.createCustomer(customer)
+        service.createCustomer(customer.toCustomerModel())
     }
 
     @GetMapping("/{id}")
@@ -32,7 +33,7 @@ class CustomerController(val service: CustomerService) {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateCustomer(@PathVariable id: Int, @RequestBody customer: PutCustomerRequest) {
-        return service.updateCustomer(id, customer)
+        return service.updateCustomer(id, customer.toCustomerModel())
     }
 
     @DeleteMapping("/{id}")

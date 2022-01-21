@@ -1,7 +1,7 @@
 package br.poa.sprenger.mercadolivro.model
 
 data class CustomerModel (
-    var id: String,
+    var id: Int? = null,
     var name: String,
     var email: String
 )
