@@ -1,38 +1,41 @@
 package br.poa.sprenger.mercadolivro.service
 
 import br.poa.sprenger.mercadolivro.model.CustomerModel
+import br.poa.sprenger.mercadolivro.repository.CustomerRepository
 import org.springframework.stereotype.Service
 
 @Service
-class CustomerService {
-    val customers = mutableListOf<CustomerModel>()
-    var counter: Int = 0
+class CustomerService(val customerRepository: CustomerRepository) {
 
     fun getAll(name: String?): List<CustomerModel> {
         name?.let {
-            return customers.filter { it.name.contains(name, true) }
+            return customerRepository.findByNameContainingIgnoreCase(name)
         }
 
-        return customers
+        return customerRepository.findAll().toList()
     }
 
     fun getCustomer(id: Int): CustomerModel {
-        return customers[id - 1]
+        return customerRepository.findById(id).orElseThrow()
     }
 
-    fun updateCustomer(id: Int, customer: CustomerModel) {
-        customers.first { it.id == id }.let {
-            it.name = customer.name
-            it.email = customer.email
+    fun updateCustomer(customer: CustomerModel) {
+        if (!customerRepository.existsById(customer.id!!)) {
+            throw NoSuchElementException()
         }
+
+        customerRepository.save(customer)
     }
 
     fun createCustomer(customer: CustomerModel) {
-        customer.id = ++counter
-        customers.add(customer)
+        customerRepository.save(customer)
     }
 
     fun delete(id: Int) {
-        customers.removeIf { it.id == id }
+        if (!customerRepository.existsById(id)) {
+            throw Exception()
+        }
+
+        customerRepository.deleteById(id)
     }
 }

@@ -1,7 +1,16 @@
 package br.poa.sprenger.mercadolivro.model
 
-data class CustomerModel (
+import javax.persistence.*
+
+@Entity(name = "customer")
+data class CustomerModel(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int? = null,
+
+    @Column
     var name: String,
-    var email: String
+
+    @Column
+    var email: String,
 )
